@@ -2,6 +2,8 @@
 const bitcoin = require('@okxweb3/coin-bitcoin');
 const Brc420InscriptionTool = require('./okex-lib')
 const axios = require('axios')
+require('dotenv').config()
+
 
 const network = bitcoin.networks.testnet;
 const privateKey = process.env.PRI
