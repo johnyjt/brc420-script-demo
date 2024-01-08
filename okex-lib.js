@@ -46,11 +46,11 @@ class Brc420InscriptionTool extends bitcoin.InscriptionTool {
     buildCommitTx(network, commitTxPrevOutputList, changeAddress, totalRevealPrevOutputValue, commitFeeRate, minChangeValue) {
         let totalSenderAmount = 0;
         const tx = new bitcoin.Transaction();
-        tx.version = super.defaultTxVersion;
+        tx.version = defaultTxVersion;
 
         commitTxPrevOutputList.forEach(commitTxPrevOutput => {
             const hash = base.reverseBuffer(base.fromHex(commitTxPrevOutput.txId));
-            tx.addInput(hash, commitTxPrevOutput.vOut, super.defaultSequenceNum);
+            tx.addInput(hash, commitTxPrevOutput.vOut, defaultSequenceNum);
             this.commitTxPrevOutputFetcher.push(commitTxPrevOutput.amount);
             totalSenderAmount += commitTxPrevOutput.amount;
         });
