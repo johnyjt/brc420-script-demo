@@ -32,8 +32,8 @@ async function test() {
     const buffer = Buffer.from("demo");
     //1. inscription
     const inscriptionResult = ordInstription(commitTxPrevOutputList, network, 'text/plain;charset=utf-8', buffer, revealAddr, changeAddress)
-    // txs.push(inscriptionResult.commitTx)
-    // txs.push(...inscriptionResult.revealTxs)
+    txs.push(inscriptionResult.commitTx)
+    txs.push(...inscriptionResult.revealTxs)
 
     // console.log(inscriptionResult)
     const inscriptionId = inscriptionResult.inscriptionId
@@ -43,13 +43,13 @@ async function test() {
     deployCommitTxPrevOutputList.push({ ...inscriptionResult.chargeOut, privateKey })
     const deployResult = ordInstription(deployCommitTxPrevOutputList, network, 'text/plain;charset=utf-8', `{"p":"brc-420","op":"deploy","id":"${inscriptionId}","name":"tttt","max":"1000","price":"0.00000546"}`, revealAddr, changeAddress)
 
-    // txs.push(deployResult.commitTx)
-    // txs.push(...deployResult.revealTxs)
+    txs.push(deployResult.commitTx)
+    txs.push(...deployResult.revealTxs)
 
     const mintCommitTxPrevOutputList = [];
     console.log(deployResult.chargeOut)
     mintCommitTxPrevOutputList.push({ ...deployResult.chargeOut, privateKey })
-    const repeat = 1;
+    const repeat = 5;
     const royaltyReceiver = revealAddr;
     const royalty = 546;
     const mintResult = mint(mintCommitTxPrevOutputList, network, repeat, royaltyReceiver, royalty, inscriptionId, revealAddr, changeAddress);
