@@ -6,13 +6,14 @@ require('dotenv').config()
 
 // const network = bitcoin.networks.testnet;
 const network = bitcoin.networks.bitcoin;
-const privateKey = process.env.PRI
+const privateKey = process.env.PRI  //private key in .env file
+//
 const changeAddress = ''
 const revealAddr = ''
 
-const feeRate = 50;
-
-const mintCommitTxPrevOutputList = [];
+//** config 
+const feeRate = 50; //fee rate  sat/vB
+const mintCommitTxPrevOutputList = [];// tutxos
 mintCommitTxPrevOutputList.push({
     txId: "",
     vOut: 9,
@@ -26,26 +27,31 @@ mintCommitTxPrevOutputList.push({
     address: "",
     privateKey: privateKey,
 });
+//inscription info
+const inscriptionId = "394a02a4d9e1c2cd50f3920baa2fcc84bee3ac4cfe7431c0949765cdc510264ci0"//
+const inscriptionType = 'image/jpeg'
+
+//mint times
+const repeat = 2;
+
+//royalty info
+const royaltyReceiver = 'bc1q408xtwelejn0txlnrt0xf4wp8qg26sf5cr854m';
+const royalty = 68000;//0.00068000
 
 //run test
-test()
-async function test() {
+mint()
+async function mint() {
     const txs = []
     // console.log(inscriptionResult)
-    const inscriptionId = "394a02a4d9e1c2cd50f3920baa2fcc84bee3ac4cfe7431c0949765cdc510264ci0"//
-    const inscriptionType = 'image/jpeg'
-
-    const repeat = 1;//repeat time
-    const royaltyReceiver = 'bc1q408xtwelejn0txlnrt0xf4wp8qg26sf5cr854m';
-    const royalty = 68000;//0.00068000
-    const mintResult = mint(mintCommitTxPrevOutputList, network, repeat, royaltyReceiver, royalty, inscriptionType, inscriptionId, revealAddr, changeAddress);
+    const mintResult = mintTx(mintCommitTxPrevOutputList, network, repeat, royaltyReceiver, royalty, inscriptionType, inscriptionId, revealAddr, changeAddress);
     txs.push(mintResult.commitTx)
     txs.push(...mintResult.revealTxs)
-    await broadcast(txs);
+    //broadcast
+    // await broadcast(txs);
 
 }
 
-function mint(commitTxPrevOutputList, network, repeat, royaltyReceiver, royalty, inscriptionType, inscriptionId, revealAddr, changeAddress) {
+function mintTx(commitTxPrevOutputList, network, repeat, royaltyReceiver, royalty, inscriptionType, inscriptionId, revealAddr, changeAddress) {
     const inscriptionDataList = [];
     for (let i = 0; i < repeat; i++) {
         inscriptionDataList.push({
